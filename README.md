@@ -19,4 +19,4 @@ You are part of the team that explores Mars by sending remotely controlled vehic
 
 ### Assumptions
 * Rover stays in the same position if it receives empty commands.
-* Initial position will be defined like "xCoordinate:yCoordinate:Direction" where directions are: N, S, W, E
+* Initial position will be defined like "xCoordinate:yCoordinate:Direction" where directions are: N, S, W, E. For example: "1:2:E".
