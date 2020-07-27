@@ -1,7 +1,6 @@
 package com.avalldeperas.marsroverkata.model;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,12 @@ public class Rover {
         StringBuilder sb = new StringBuilder();
         int stage = 0;
         for (Command command : commandWrapper.getCommands()) {
-            sb.append(stage + "-" + this.execute(command)+ "\n");
+            try {
+                sb.append(stage + "-" + this.execute(command) + "\n");
+            } catch (SecurityException e) {
+                sb.append(stage + "-" + e.getMessage());
+                break;
+            }
             stage++;
         }
         return sb.toString();
@@ -52,12 +56,9 @@ public class Rover {
     }
 
     private void checkCollision(Position newPosition) {
-        for (Position rock: buildRocks()) {
-            if (rock.equals(newPosition)) {
-                throw new SecurityException("Movement aborted object detected at: " + newPosition);
-            }
+        if (buildRocks().contains(newPosition)) {
+            throw new SecurityException("Rock detected at: " + newPosition);
         }
-
     }
 
     private List<Position> buildRocks() {

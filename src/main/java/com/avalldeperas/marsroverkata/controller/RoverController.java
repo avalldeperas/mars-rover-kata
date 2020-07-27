@@ -1,17 +1,28 @@
 package com.avalldeperas.marsroverkata.controller;
 
-import com.avalldeperas.marsroverkata.model.Command;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import com.avalldeperas.marsroverkata.model.CommandWrapper;
+import com.avalldeperas.marsroverkata.service.RoverService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RoverController {
 
-    @GetMapping
-    public void execute(@RequestParam List<Command> commands) {
+    private RoverService roverService;
 
+    @Autowired
+    public RoverController(RoverService roverService) {
+        this.roverService = roverService;
+    }
+
+    @PostMapping("/execute-rover")
+//    @ExceptionHandler(SecurityException.class)
+    public String execute(@RequestBody CommandWrapper wrapper) {
+        return roverService.execute(wrapper);
+    }
+
+    @GetMapping("hello-world")
+    public String hello() {
+        return "hello";
     }
 }

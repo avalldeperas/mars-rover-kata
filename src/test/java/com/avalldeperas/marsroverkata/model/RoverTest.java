@@ -1,5 +1,6 @@
 package com.avalldeperas.marsroverkata.model;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +65,9 @@ public class RoverTest {
         CommandWrapper wrapper = new CommandWrapper();
         wrapper.setCommands(commands);
 
-        String execute = rover.execute(wrapper);
-        log.info(execute);
+        Gson gson = new Gson();
+        String json = gson.toJson(wrapper);
+
+        log.info(json);
     }
 }
