@@ -1,0 +1,4 @@
+{
+    commands: LRBCK,
+    initPosition: 0:1:E
+}
