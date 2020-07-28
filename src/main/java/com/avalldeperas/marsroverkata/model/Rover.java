@@ -1,11 +1,16 @@
 package com.avalldeperas.marsroverkata.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,27 +21,54 @@ import java.util.List;
 @Table(name = "rover")
 public class Rover {
 
+    /**
+     * Rover primary key auto-incremented.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Rover state to check if it is running.
+     */
     @Column(name = "running")
     private boolean isRunning;
 
+    /**
+     * Current position of the Rover.
+     */
     @Transient
     private Position position = new Position();
 
+    /**
+     * Current direction of the Rover.
+     */
     @Transient
 //    @Column(name = "direction")
     private Direction direction = Direction.NORTH;
 
+    /**
+     * Rover's name.
+     */
     @Column(name = "name")
     private String name;
 
-    public final static Integer MAX_X = 10;
-    public final static Integer MAX_Y = 10;
+    /**
+     * Max X size of the grid used for wrapping.
+     */
+    public static final Integer MAX_X = 10;
+    /**
+     * Max Y size of the grid used for wrapping.
+     */
+    public static final Integer MAX_Y = 10;
 
-    public String execute(CommandWrapper commandWrapper) {
+    /**
+     * Method that executes a list of commands inside the Command Wrapper.
+     *
+     * @param commandWrapper Wrapper of a list of commands.
+     * @return A report of each command execution.
+     */
+    public String execute(final CommandWrapper commandWrapper) {
         StringBuilder sb = new StringBuilder();
         int stage = 0;
         for (Command command : commandWrapper.getCommands()) {
@@ -51,9 +83,15 @@ public class Rover {
         return sb.toString();
     }
 
-    private String execute(Command command) {
+    /**
+     * Method that executes one given command.
+     *
+     * @param command The command to be executed.
+     * @return A report of the executed command.
+     */
+    private String execute(final Command command) {
         Position movement = new Position(direction.getVectorDirection());
-        switch(command) {
+        switch (command) {
             case BACKWARD:
                 movement = movement.multiply(-1);
             case FORWARD:
@@ -62,45 +100,76 @@ public class Rover {
                 this.position = newPosition;
                 break;
             case LEFT:
-                this.direction = direction.multiplyMatrix(Direction.rotateLeftMatrix);
+                this.direction = direction.multiplyMatrix(
+                        Direction.ROTATE_LEFT_MATRIX
+                );
                 break;
             case RIGHT:
-                this.direction = direction.multiplyMatrix(Direction.rotateRightMatrix);
+                this.direction = direction.multiplyMatrix(
+                        Direction.ROTATE_RIGHT_MATRIX
+                );
                 break;
             default:
-                throw new IllegalArgumentException("Unknown command: " + command.toString());
+                throw new IllegalArgumentException("Unknown command: "
+                        + command.toString());
         }
-        return String.format("%d:%d:%s",position.getX(),position.getY(),direction.getShortDirection());
+        return String.format("%d:%d:%s", position.getX(),
+                position.getY(), direction.getShortDirection());
     }
 
-    private void checkCollision(Position newPosition) {
+    /**
+     * Method that checks rover collisions.
+     * @param newPosition New rover position.
+     */
+    private void checkCollision(final Position newPosition) {
         if (buildRocks().contains(newPosition)) {
             throw new SecurityException("Rock detected at: " + newPosition);
         }
     }
 
+    /**
+     * Method that builds rocks positions.
+     * @return A list of rock positions.
+     */
     private List<Position> buildRocks() {
-        return Arrays.asList(
-                new Position(1,1),
-                new Position(2,3),
-                new Position(5,5),
-                new Position(4,7),
-                new Position(8,2)
+        final List<Position> rocksPosition = Arrays.asList(
+                new Position(1, 1),
+                new Position(2, 3),
+                new Position(5, 5),
+                new Position(4, 7),
+                new Position(8, 2)
         );
+        return rocksPosition;
     }
 
+    /**
+     * Method that sends a right rotation command.
+     * @return the report of the execution.
+     */
     public String rotateRight() {
         return execute(Command.RIGHT);
     }
 
+    /**
+     * Method that sends a left rotation command.
+     * @return the report of the execution.
+     */
     public String rotateLeft() {
         return execute(Command.LEFT);
     }
 
+    /**
+     * Method that sends a forward move command.
+     * @return the report of the execution.
+     */
     public String moveForward() {
         return execute(Command.FORWARD);
     }
 
+    /**
+     * Method that sends a backward move command.
+     * @return the report of the execution.
+     */
     public String moveBackward() {
         return execute(Command.BACKWARD);
     }

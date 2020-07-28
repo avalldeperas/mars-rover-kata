@@ -5,8 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MarsRoverKataApplication {
-
-    public static void main(String[] args) {
+    /**
+     * Method that executes the SpringBoot application.
+     * @param args Possible non-expected arguments.
+     */
+    public static void main(final String[] args) {
         SpringApplication.run(MarsRoverKataApplication.class, args);
     }
 
