@@ -1,22 +1,40 @@
 package com.avalldeperas.marsroverkata.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
+@Entity
+@Data
+@RequiredArgsConstructor
+@Table(name = "rover")
 public class Rover {
 
-    private Position position;
-    private Direction direction;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "running")
+    private boolean isRunning;
+
+    @Transient
+    private Position position = new Position();
+
+    @Transient
+//    @Column(name = "direction")
+    private Direction direction = Direction.NORTH;
+
+    @Column(name = "name")
+    private String name;
+
     public final static Integer MAX_X = 10;
     public final static Integer MAX_Y = 10;
-
-    public Rover() {
-        position = new Position();
-        direction = Direction.NORTH;
-    }
 
     public String execute(CommandWrapper commandWrapper) {
         StringBuilder sb = new StringBuilder();
