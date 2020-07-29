@@ -1,10 +1,12 @@
 package com.avalldeperas.marsroverkata.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.ToString;
 
 /**
  * List with the possible commands accepted by the rover.
  */
+@JsonSerialize(JsonSerialize.class)
 @ToString
 public enum Command {
 
@@ -15,7 +17,9 @@ public enum Command {
     /** Turns the rover 90º to the left.  */
     LEFT("l"),
     /** Turns the rover 90º to the right. */
-    RIGHT("r");
+    RIGHT("r"),
+    /** */
+    NULL_COMMAND("n");
 
     /** Stores the command identifiers. */
     private final String shortCommand;
@@ -25,12 +29,10 @@ public enum Command {
     }
 
     /**
-     * Gets the command identifiers.
-     * @return the command identifier.
+     * Gets the short command.
+     * @return the short command.
      */
     public String getShortCommand() {
         return shortCommand;
     }
-
-
 }

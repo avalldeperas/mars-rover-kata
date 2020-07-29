@@ -48,9 +48,9 @@ public class RoverController {
 
     /**
      * Executes commands for an specific Rover.
-     * @param wrapper
-     * @param id
-     * @return
+     * @param wrapper List of commands.
+     * @param id The Rover's id.
+     * @return The log of the command execution.
      */
     @PostMapping("/execute-rover/{id}")
     public String execute(@RequestBody final CommandWrapper wrapper,
@@ -59,9 +59,9 @@ public class RoverController {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Turns the Rover on.
+     * @param id Rover's id that will be turned on.
+     * @return the log of the turning on.
      */
     @GetMapping("/turn-on-rover/{id}")
     public String turnOnRover(@PathVariable final Long id) {
@@ -69,12 +69,22 @@ public class RoverController {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Turns the Rover off.
+     * @param id Rover's id that will be turned off.
+     * @return the log of the turning off.
      */
     @GetMapping("/turn-off-rover/{id}")
     public String turnOffRover(@PathVariable final Long id) {
         return service.turnOnOffRover(id, false);
+    }
+
+    /**
+     * Deploys a new Rover to Mars.
+     * @param rover The Rover to be deployed.
+     * @return The Rover deployed.
+     */
+    @PostMapping("/deploy-rover")
+    public Rover deployRover(@RequestBody final Rover rover) {
+        return service.deployRover(rover);
     }
 }

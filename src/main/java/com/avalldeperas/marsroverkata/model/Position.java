@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
 @EqualsAndHashCode
+@ToString
 public class Position {
     /** X component of the position. */
     private Integer x;
@@ -74,4 +74,5 @@ public class Position {
         tempPosition.y *= value;
         return tempPosition;
     }
+
 }

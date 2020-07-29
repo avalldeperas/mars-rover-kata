@@ -2,6 +2,7 @@ package com.avalldeperas.marsroverkata.service;
 
 import com.avalldeperas.marsroverkata.data.RoverRepository;
 import com.avalldeperas.marsroverkata.model.CommandWrapper;
+import com.avalldeperas.marsroverkata.model.Position;
 import com.avalldeperas.marsroverkata.model.Rover;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,13 @@ public class RoverService {
      * @return the log of the command list' execution.
      */
     public String execute(final CommandWrapper commands, final Long id) {
-        Optional<Rover> byId = repository.findById(id);
-//        if()
-        return rover.execute(commands);
+        Optional<Rover> roverFound = repository.findById(id);
+        if (roverFound.isEmpty()) {
+            return "Rover not found with id = " + id;
+        }
+        String log = roverFound.get().execute(commands);
+        repository.save(roverFound.get());
+        return log;
     }
 
     /**
@@ -83,7 +88,7 @@ public class RoverService {
     }
 
     /**
-     * Method that calls the repository to return a Rover by its id.
+     * Calls the repository to return a Rover by its id.
      * @param id The Rover's id.
      * @return An Optional that may contain the requested Rover.
      */
@@ -91,4 +96,16 @@ public class RoverService {
         return repository.findById(id);
     }
 
+    /**
+     * Deploys a new Rover by creating an entry in the repository
+     * representing a Rover. Regularizes the position of the new Rover.
+     * @param newRover The new rover to be deployed.
+     * @return The rover deployed gathered from the database.
+     */
+    public Rover deployRover(final Rover newRover) {
+        newRover.setPosition(newRover.getPosition().add(
+                new Position(0, 0))
+        );
+        return repository.save(newRover);
+    }
 }

@@ -4,13 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,10 +35,36 @@ public class Rover {
     private Position position = new Position();
 
     /**
+     * Gets the x component of the rover position.
+     * @return the x component of the rover position.
+     */
+    @Access(AccessType.PROPERTY)
+    @Column(name = "X")
+    private Integer getX() {
+        return position.getX();
+    }
+
+    /**
+     * Gets the y component of the rover position.
+     * @return the y component of the rover position.
+     */
+    @Access(AccessType.PROPERTY)
+    @Column(name = "Y")
+    private Integer getY() {
+        return position.getY();
+    }
+
+    private void setY(final Integer y) {
+        position = new Position(position.getX(), y);
+    }
+    private void setX(final Integer x) {
+        position = new Position(x, position.getY());
+    }
+
+    /**
      * Current direction of the Rover.
      */
-    @Transient
-//    @Column(name = "direction")
+    @Column(name = "direction")
     private Direction direction = Direction.NORTH;
 
     /**
@@ -91,7 +111,8 @@ public class Rover {
      */
     private String execute(final Command command) {
         Position movement = new Position(direction.getVectorDirection());
-        switch (command) {
+        Command execCommand = command != null ? command : Command.NULL_COMMAND;
+        switch (execCommand) {
             case BACKWARD:
                 movement = movement.multiply(-1);
             case FORWARD:
@@ -111,7 +132,7 @@ public class Rover {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown command: "
-                        + command.toString());
+                        + command);
         }
         return String.format("%d:%d:%s", position.getX(),
                 position.getY(), direction.getShortDirection());
