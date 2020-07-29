@@ -36,15 +36,11 @@ public enum Direction {
     /**
      * Matrix for left rotation(90º).
      */
-    public static final Integer[][] ROTATE_LEFT_MATRIX = new Integer[][]{
-            {0, 1}, {-1, 0}
-    };
+    public static final Integer[][] ROTATE_LEFT_MATRIX = {{0, 1}, {-1, 0}};
     /**
      * Matrix for right rotation(90º).
      */
-    public static final Integer[][] ROTATE_RIGHT_MATRIX = new Integer[][]{
-            {0, -1}, {1, 0}
-    };
+    public static final Integer[][] ROTATE_RIGHT_MATRIX = {{0, -1}, {1, 0}};
 
     Direction(final String shortDirectionValue,
               final Integer[] vectorDirectionValue) {
@@ -54,7 +50,6 @@ public enum Direction {
 
     /**
      * Method that returns matrix products.
-     *
      * @param rotationMatrix the matrix to be multiplied.
      * @return The resulting facing direction.
      */
@@ -63,13 +58,15 @@ public enum Direction {
                 new Integer[][]{this.vectorDirection},
                 rotationMatrix
         );
-        for (Direction direction : Direction.values()) {
-            if (Arrays.equals(direction.vectorDirection, result[0])) {
-                return direction;
-            }
-        }
-        throw new IllegalArgumentException("Unknown direction: "
-                + (result[0]).toString());
+
+        return Arrays.stream(Direction.values())
+                .filter(direction -> Arrays.equals(
+                        direction.vectorDirection, result[0])
+                ).findAny()
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Unknown direction: "
+                                + Arrays.toString((result[0]))
+                ));
     }
 
     /**
@@ -104,7 +101,7 @@ public enum Direction {
     public static Integer multiplyMatricesCell(final Integer[][] firstMatrix,
                                                final Integer[][] secondMatrix,
                                                final int row, final int col) {
-        int cell = 0;
+        var cell = 0;
         for (int i = 0; i < secondMatrix.length; i++) {
             cell += firstMatrix[row][i] * secondMatrix[i][col];
         }

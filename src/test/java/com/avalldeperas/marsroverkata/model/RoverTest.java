@@ -22,27 +22,34 @@ public class RoverTest {
     }
 
     @Test
-    public void rotateRightTest() {
+    public void rotateRight_basic() {
         assertThat(rover.rotateRight()).isEqualTo("0:0:E");
     }
 
     @Test
-    public void rotateLeftTest() {
+    public void rotateLeft_basic() {
         assertThat(rover.rotateLeft()).isEqualTo("0:0:W");
     }
 
     @Test
-    public void moveForwardTest() {
+    public void moveForward_basic() {
         assertThat(rover.moveForward()).isEqualTo("0:1:N");
     }
 
     @Test
-    public void moveBackwardTest() {
+    public void moveForward_outX() {
+        rover.setPosition(new Position(0,5));
+        rover.setDirection(Direction.WEST);
+        assertThat(rover.moveForward()).isEqualTo("9:5:W");
+    }
+
+    @Test
+    public void moveBackward_basic() {
         assertThat(rover.moveBackward()).isEqualTo("0:9:N");
     }
 
     @Test
-    public void rockCollisionTest() {
+    public void rockCollision_basic() {
         rover.moveForward();
         rover.rotateRight();
         assertThatExceptionOfType(SecurityException.class)
