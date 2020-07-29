@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class RoverTest {
 
     private Rover rover;
-    private CommandWrapper commandWrapper;
+    private CommandWrapper commandWrapper, commandWrapperWithNull;
     private Random random;
 
 
@@ -26,6 +24,7 @@ public class RoverTest {
         rover = new Rover();
         random = new Random();
         commandWrapper = generateRandomDirections();
+        commandWrapperWithNull = generateCommandWithNull();
     }
 
     @Test
@@ -66,9 +65,7 @@ public class RoverTest {
     @Test
     public void rockCollision_basic() {
         commandWrapper = new CommandWrapper();
-        commandWrapper.setCommands(Arrays.asList(
-                Command.FORWARD, Command.RIGHT, Command.FORWARD
-        ));
+        commandWrapper.setCommands("frf");
         assertThat(rover.execute(commandWrapper))
                 .contains("Rock detected at: ");
 
@@ -81,7 +78,7 @@ public class RoverTest {
     @Test
     public void execute_exception() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> rover.execute(commandWrapper))
+                .isThrownBy(() -> rover.execute(commandWrapperWithNull))
                 .withMessageContaining("Unknown command: ");
     }
 
@@ -95,15 +92,22 @@ public class RoverTest {
 
     private CommandWrapper generateRandomDirections() {
         Command[] values = Command.values();
-        List<Command> commands = new ArrayList<>();
+        String commandString = "";
         for (int i = 0; i < 10; i++) {
-            commands.add(values[random.nextInt(values.length - 1)]);
+            commandString += values[random.nextInt(values.length - 1)].getShortCommand();
         }
-        commands.add(null);
         CommandWrapper commandWrapper = new CommandWrapper();
-        commandWrapper.setCommands(commands);
+        commandWrapper.setCommands(commandString);
         return commandWrapper;
     }
 
+
+    private CommandWrapper generateCommandWithNull() {
+        CommandWrapper tempCommandWrapper = new CommandWrapper();
+        tempCommandWrapper.setCommandList(
+                Arrays.asList(Command.FORWARD,Command.NULL_COMMAND)
+        );
+        return tempCommandWrapper;
+    }
 
 }

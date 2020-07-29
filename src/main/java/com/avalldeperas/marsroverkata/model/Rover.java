@@ -90,12 +90,12 @@ public class Rover {
      */
     public String execute(final CommandWrapper commandWrapper) {
         StringBuilder sb = new StringBuilder();
-        int stage = 0;
-        for (Command command : commandWrapper.getCommands()) {
+        var stage = 0;
+        for (Command command : commandWrapper.getCommandList()) {
             try {
-                sb.append(stage + "-" + this.execute(command) + "\n");
-            } catch (SecurityException e) {
-                sb.append(stage + "-" + e.getMessage());
+                sb.append(stage + " - " + this.execute(command) + "\n");
+            } catch (SecurityException | IllegalArgumentException e) {
+                sb.append(stage + " - " + e.getMessage());
                 break;
             }
             stage++;
@@ -131,7 +131,7 @@ public class Rover {
                 );
                 break;
             default:
-                throw new IllegalArgumentException("Unknown command: "
+                throw new IllegalArgumentException("Unimplemented command: "
                         + command);
         }
         return String.format("%d:%d:%s", position.getX(),
