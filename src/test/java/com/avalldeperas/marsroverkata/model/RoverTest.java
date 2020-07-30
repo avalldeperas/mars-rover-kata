@@ -110,4 +110,12 @@ public class RoverTest {
         return tempCommandWrapper;
     }
 
+    @Test
+    public void testLogTable(){
+        CommandWrapper wrapper = new CommandWrapper();
+        wrapper.setCommands("ffrflfnff");
+        String execute = rover.execute(wrapper);
+        System.out.println(execute);
+    }
+
 }

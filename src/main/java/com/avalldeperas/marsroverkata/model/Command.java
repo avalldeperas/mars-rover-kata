@@ -1,35 +1,38 @@
 package com.avalldeperas.marsroverkata.model;
+
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.ToString;
 
 import java.util.stream.Stream;
 
 /**
  * List with the possible commands accepted by the rover.
  */
-@ToString
 public enum Command {
 
     /** Makes the rover move backward in the direction it is facing.  */
-    BACKWARD('b'),
+    BACKWARD('b', "Move Backward"),
     /** Makes the rover move forward in the direction it is facing.  */
-    FORWARD('f'),
+    FORWARD('f', "Move Forward"),
     /** Turns the rover 90º to the left.  */
-    LEFT('l'),
+    LEFT('l', "Rotate Left"),
     /** Turns the rover 90º to the right. */
-    RIGHT('r'),
+    RIGHT('r', "Rotate Right"),
     /** */
-    NULL_COMMAND('n'),
+    NULL_COMMAND('n', "Null Command"),
     /** */
-    UNIDENTIFIED_COMMAND('?');
+    UNIDENTIFIED_COMMAND('?', "Unidentified");
 
     /** Stores the command identifiers and takes into account the shortCommand
      * for Json serialization. */
     @JsonValue
     private final char shortCommand;
 
-    Command(final char command) {
+    /** String representation of a Command. */
+    private final String custom;
+
+    Command(final char command, final String customValue) {
         this.shortCommand = command;
+        this.custom = customValue;
     }
 
     /**
@@ -41,9 +44,9 @@ public enum Command {
     }
 
     /**
-     * asd.
-     * @param shortCommandValue
-     * @return asd.
+     * Gets the Command enum by a given short command.
+     * @param shortCommandValue the short command to be translated.
+     * @return The Command translated.
      */
     public static Command getCommandByShortCommand(
             final char shortCommandValue) {
@@ -52,5 +55,10 @@ public enum Command {
                         == Character.toLowerCase(shortCommandValue))
                 .findAny()
                 .orElse(Command.UNIDENTIFIED_COMMAND);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("<%s> %s", shortCommand, custom);
     }
 }

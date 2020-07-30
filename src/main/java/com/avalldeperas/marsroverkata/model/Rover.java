@@ -2,13 +2,21 @@ package com.avalldeperas.marsroverkata.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
 @Entity
 @Data
 @RequiredArgsConstructor
@@ -89,27 +97,34 @@ public class Rover {
      * @return A report of each command execution.
      */
     public String execute(final CommandWrapper commandWrapper) {
-        StringBuilder sb = new StringBuilder();
-        var stage = 0;
+        List<RoverLog> logs = new ArrayList<>();
+        var stage = 1;
         for (Command command : commandWrapper.getCommandList()) {
+            RoverLog currentLog;
             try {
-                sb.append(stage + " - " + this.execute(command) + "\n");
+                currentLog = this.execute(command);
+                currentLog.setStage(stage);
+                logs.add(currentLog);
             } catch (SecurityException | IllegalArgumentException e) {
-                sb.append(stage + " - " + e.getMessage());
+                currentLog = new RoverLog(command, position, direction,
+                        e.getMessage());
+                currentLog.setStage(stage);
+                logs.add(currentLog);
                 break;
             }
             stage++;
         }
+        StringBuilder sb = RoverLog.buildHeader();
+        sb.append(RoverLog.buildBodyLog(logs));
         return sb.toString();
     }
 
     /**
      * Method that executes one given command.
-     *
      * @param command The command to be executed.
      * @return A report of the executed command.
      */
-    private String execute(final Command command) {
+    private RoverLog execute(final Command command) {
         Position movement = new Position(direction.getVectorDirection());
         Command execCommand = command != null ? command : Command.NULL_COMMAND;
         switch (execCommand) {
@@ -134,8 +149,8 @@ public class Rover {
                 throw new IllegalArgumentException("Unimplemented command: "
                         + command);
         }
-        return String.format("%d:%d:%s", position.getX(),
-                position.getY(), direction.getShortDirection());
+        return new RoverLog(command, position, direction,
+                            "Execute success.");
     }
 
     /**
@@ -167,7 +182,7 @@ public class Rover {
      * Method that sends a right rotation command.
      * @return the report of the execution.
      */
-    public String rotateRight() {
+    public RoverLog rotateRight() {
         return execute(Command.RIGHT);
     }
 
@@ -175,7 +190,7 @@ public class Rover {
      * Method that sends a left rotation command.
      * @return the report of the execution.
      */
-    public String rotateLeft() {
+    public RoverLog rotateLeft() {
         return execute(Command.LEFT);
     }
 
@@ -183,7 +198,7 @@ public class Rover {
      * Method that sends a forward move command.
      * @return the report of the execution.
      */
-    public String moveForward() {
+    public RoverLog moveForward() {
         return execute(Command.FORWARD);
     }
 
@@ -191,7 +206,8 @@ public class Rover {
      * Method that sends a backward move command.
      * @return the report of the execution.
      */
-    public String moveBackward() {
+    public RoverLog moveBackward() {
         return execute(Command.BACKWARD);
     }
+
 }
