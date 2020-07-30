@@ -1,6 +1,9 @@
 package com.avalldeperas.marsroverkata.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Access;
@@ -19,7 +22,9 @@ import java.util.List;
 
 @Entity
 @Data
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "rover")
 public class Rover {
 
