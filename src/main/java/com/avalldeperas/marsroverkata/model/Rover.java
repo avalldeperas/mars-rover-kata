@@ -170,7 +170,8 @@ public class Rover {
      */
     private void checkCollision(final Position newPosition) {
         if (buildRocks().contains(newPosition)) {
-            throw new SecurityException("Collision! Rock detected at: " + newPosition);
+            throw new SecurityException("Collision! Rock detected at: "
+                    + newPosition);
         }
     }
 
