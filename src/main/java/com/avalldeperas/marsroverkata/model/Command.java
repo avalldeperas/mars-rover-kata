@@ -17,9 +17,9 @@ public enum Command {
     LEFT('l', "Rotate Left"),
     /** Turns the rover 90º to the right. */
     RIGHT('r', "Rotate Right"),
-    /** */
+    /** Used to check null commands.  */
     NULL_COMMAND('n', "Null Command"),
-    /** */
+    /** Used to check commands not identified by the Rover. */
     UNIDENTIFIED_COMMAND('?', "Unidentified");
 
     /** Stores the command identifiers and takes into account the shortCommand

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.avalldeperas.marsroverkata"},{"l":"com.avalldeperas.marsroverkata.controller"},{"l":"com.avalldeperas.marsroverkata.data"},{"l":"com.avalldeperas.marsroverkata.model"},{"l":"com.avalldeperas.marsroverkata.service"}]

@@ -16,6 +16,13 @@ You are part of the team that explores Mars by sending remotely controlled vehic
 * Try using the patterns or architecture that you think best fit the problem, however, feel free to use this kata to learn to use a pattern you never used before even if it does not fit, just tell us.
 * No REST API or Spring, or database is required, but feel free to use one if you want.
 * This kata is a good exercise to practice TDD, so we encourage you to do it this way!
+<br><br>
+----
+## API Endpoints
+This SpringBoot Application has the following:
+[endpoints](documentation/javadoc/com/avalldeperas/marsroverkata/controller/RoverController.html)
+
+
 
 ### Future features
 * When creating a new Rover, check if there is any obstacle or other rover in 
