@@ -17,6 +17,15 @@ You are part of the team that explores Mars by sending remotely controlled vehic
 * No REST API or Spring, or database is required, but feel free to use one if you want.
 * This kata is a good exercise to practice TDD, so we encourage you to do it this way!
 
-### Assumptions
-* Rover stays in the same position if it receives empty commands.
-* Initial position will be defined like "xCoordinate:yCoordinate:Direction" where directions are: N, S, W, E. For example: "1:2:E".
+### Future features
+* When creating a new Rover, check if there is any obstacle or other rover in 
+the same position.
+* Make the Rover print a map.
+* Generate random map.
+* Create an interface to interact with the Rover.
+* Add security to all requests.
+
+### Code Quality Assurance 
+* Added javadoc for each class created.
+* Passes CheckStyle code inspection with 0 errors.
+* Has test coverage of 100% of methods/lines.

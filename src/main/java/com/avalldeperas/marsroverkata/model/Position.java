@@ -2,7 +2,6 @@ package com.avalldeperas.marsroverkata.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode

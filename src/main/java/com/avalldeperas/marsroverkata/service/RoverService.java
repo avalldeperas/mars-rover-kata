@@ -8,15 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class RoverService {
-    /** Rover object. */
-    private Rover rover;
     /** Repository from the data layer to access DB. */
     private final RoverRepository repository;
 
@@ -27,15 +24,6 @@ public class RoverService {
     @Autowired
     public RoverService(final RoverRepository roverRepository) {
         this.repository = roverRepository;
-    }
-
-    /**
-     * Method that executes right after the service construct execution.
-     */
-    @PostConstruct
-    public void init() {
-        log.info(this.getClass().getSimpleName() + " - PostConstruct");
-        this.rover = new Rover();
     }
 
     /**
