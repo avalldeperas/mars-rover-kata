@@ -30,29 +30,47 @@ public class RoverTest {
 
     @Test
     public void rotateRight_basic() {
-        assertThat(rover.rotateRight()).isEqualTo("0:0:E");
+        RoverLog log = rover.rotateRight();
+        assertThat(log.getAction()).isEqualTo(Command.RIGHT);
+        assertThat(log.getPosition()).isEqualTo(new Position(0, 0));
+        assertThat(log.getDirection()).isEqualTo(Direction.EAST);
+        assertThat(log.getMessage()).isEqualTo("Execution success.");
     }
 
     @Test
     public void rotateLeft_basic() {
-        assertThat(rover.rotateLeft()).isEqualTo("0:0:W");
+        RoverLog log = rover.rotateLeft();
+        assertThat(log.getAction()).isEqualTo(Command.LEFT);
+        assertThat(log.getPosition()).isEqualTo(new Position(0, 0));
+        assertThat(log.getDirection()).isEqualTo(Direction.WEST);
+        assertThat(log.getMessage()).isEqualTo("Execution success.");
     }
 
     @Test
     public void moveForward_basic() {
-        assertThat(rover.moveForward()).isEqualTo("0:1:N");
+        RoverLog log = rover.moveForward();
+        assertThat(log.getAction()).isEqualTo(Command.FORWARD);
+        assertThat(log.getPosition()).isEqualTo(new Position(0, 1));
+        assertThat(log.getDirection()).isEqualTo(Direction.NORTH);
+        assertThat(log.getMessage()).isEqualTo("Execution success.");
+    }
+
+    @Test
+    public void moveBackward_basic() {
+        RoverLog log = rover.moveBackward();
+        assertThat(log.getAction()).isEqualTo(Command.BACKWARD);
+        assertThat(log.getPosition()).isEqualTo(new Position(0, 9));
+        assertThat(log.getDirection()).isEqualTo(Direction.NORTH);
+        assertThat(log.getMessage()).isEqualTo("Execution success.");
     }
 
     @Test
     public void moveForward_outX() {
         rover.setPosition(new Position(0,5));
         rover.setDirection(Direction.WEST);
-        assertThat(rover.moveForward()).isEqualTo("9:5:W");
-    }
-
-    @Test
-    public void moveBackward_basic() {
-        assertThat(rover.moveBackward()).isEqualTo("0:9:N");
+        RoverLog log = rover.moveForward();
+        assertThat(log.getPosition()).isEqualTo(new Position(9, 5));
+        assertThat(log.getDirection()).isEqualTo(Direction.WEST);
     }
 
     @Test
@@ -76,13 +94,6 @@ public class RoverTest {
                 0,1)
         );
         assertThat(rover.getDirection()).isEqualTo(Direction.EAST);
-    }
-
-    @Test
-    public void execute_exception() {
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> rover.execute(commandWrapperWithNull))
-                .withMessageContaining("Unknown command: ");
     }
 
     @Test

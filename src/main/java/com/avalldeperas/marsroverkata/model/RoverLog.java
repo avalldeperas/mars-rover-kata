@@ -2,7 +2,6 @@ package com.avalldeperas.marsroverkata.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,9 +11,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 @RequiredArgsConstructor
 public class RoverLog {
     /** Current stage of the command execution. */
@@ -55,7 +54,6 @@ public class RoverLog {
      * @return The log header as a StringBuilder.
      */
     public static StringBuilder buildHeader() {
-
         header = new StringBuilder();
         header.append("=======================================\n");
         header.append("=== MARS ROVER KATA - EXECUTION LOG ===\n");

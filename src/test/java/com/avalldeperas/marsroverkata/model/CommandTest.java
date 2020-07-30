@@ -10,6 +10,9 @@ public class CommandTest {
 
     @Test
     public void shortCommandGetter() {
-        assertThat(Command.FORWARD.getShortCommand()).isEqualTo("f");
+        assertThat(Command.FORWARD.getShortCommand()).isEqualTo('f');
+        assertThat(Command.BACKWARD.getShortCommand()).isEqualTo('b');
+        assertThat(Command.LEFT.getShortCommand()).isEqualTo('l');
+        assertThat(Command.RIGHT.getShortCommand()).isEqualTo('r');
     }
 }

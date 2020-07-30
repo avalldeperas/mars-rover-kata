@@ -52,7 +52,7 @@ public class Rover {
      */
     @Access(AccessType.PROPERTY)
     @Column(name = "X")
-    private Integer getX() {
+    public Integer getX() {
         return position.getX();
     }
 
@@ -62,14 +62,23 @@ public class Rover {
      */
     @Access(AccessType.PROPERTY)
     @Column(name = "Y")
-    private Integer getY() {
+    public Integer getY() {
         return position.getY();
     }
 
-    private void setY(final Integer y) {
+    /**
+     * Sets y component by updating the current position.
+     * @param y The y component.
+     */
+    public void setY(final Integer y) {
         position = new Position(position.getX(), y);
     }
-    private void setX(final Integer x) {
+
+    /**
+     * Sets x component by updating the current position.
+     * @param x The x component.
+     */
+    public void setX(final Integer x) {
         position = new Position(x, position.getY());
     }
 
@@ -152,7 +161,7 @@ public class Rover {
                         + command);
         }
         return new RoverLog(command, position, direction,
-                            "Execute success.");
+                            "Execution success.");
     }
 
     /**

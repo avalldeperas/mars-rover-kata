@@ -6,11 +6,9 @@ import com.avalldeperas.marsroverkata.model.Position;
 import com.avalldeperas.marsroverkata.model.Rover;
 import com.avalldeperas.marsroverkata.model.RoverLog;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
