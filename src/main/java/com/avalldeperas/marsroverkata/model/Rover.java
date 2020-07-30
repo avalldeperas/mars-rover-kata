@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -101,7 +100,7 @@ public class Rover {
      * @param commandWrapper Wrapper of a list of commands.
      * @return A report of each command execution.
      */
-    public String execute(final CommandWrapper commandWrapper) {
+    public List<RoverLog> execute(final CommandWrapper commandWrapper) {
         List<RoverLog> logs = new ArrayList<>();
         var stage = 1;
         for (Command command : commandWrapper.getCommandList()) {
@@ -119,9 +118,7 @@ public class Rover {
             }
             stage++;
         }
-        StringBuilder sb = RoverLog.buildHeader();
-        sb.append(RoverLog.buildBodyLog(logs));
-        return sb.toString();
+        return logs;
     }
 
     /**
@@ -164,7 +161,7 @@ public class Rover {
      */
     private void checkCollision(final Position newPosition) {
         if (buildRocks().contains(newPosition)) {
-            throw new SecurityException("Rock detected at: " + newPosition);
+            throw new SecurityException("Collision! Rock detected at: " + newPosition);
         }
     }
 

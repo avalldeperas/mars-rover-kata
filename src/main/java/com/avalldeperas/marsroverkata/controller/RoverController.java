@@ -2,8 +2,10 @@ package com.avalldeperas.marsroverkata.controller;
 
 import com.avalldeperas.marsroverkata.model.CommandWrapper;
 import com.avalldeperas.marsroverkata.model.Rover;
+import com.avalldeperas.marsroverkata.model.RoverLog;
 import com.avalldeperas.marsroverkata.service.RoverService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @Slf4j
@@ -59,7 +62,14 @@ public class RoverController {
     @PostMapping("/execute-rover/{id}")
     public String execute(@RequestBody final CommandWrapper wrapper,
                           @PathVariable final Long id) {
-        return service.execute(wrapper, id);
+        StringBuilder sb;
+        try {
+            sb = RoverLog.buildHeader();
+            sb.append(RoverLog.buildBodyLog(service.execute(wrapper, id)));
+        } catch (NoSuchElementException e) {
+            sb =  new StringBuilder("Error: " + e.getMessage());
+        }
+        return sb.toString();
     }
 
     /**

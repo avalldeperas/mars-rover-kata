@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,8 +67,10 @@ public class RoverTest {
     public void rockCollision_basic() {
         commandWrapper = new CommandWrapper();
         commandWrapper.setCommands("frf");
-        assertThat(rover.execute(commandWrapper))
-                .contains("Rock detected at: ");
+        List<RoverLog> logs = rover.execute(commandWrapper);
+        assertThat(logs).hasSize(3);
+        assertThat(logs.get(2).getMessage())
+                .contains("Collision! Rock detected at: ");
 
         assertThat(rover.getPosition()).isEqualTo(new Position(
                 0,1)
@@ -114,8 +117,8 @@ public class RoverTest {
     public void testLogTable(){
         CommandWrapper wrapper = new CommandWrapper();
         wrapper.setCommands("ffrfln");
-        String execute = rover.execute(wrapper);
-        System.out.println(execute);
+        List<RoverLog> logs = rover.execute(wrapper);
+        System.out.println(logs);
     }
 
 }

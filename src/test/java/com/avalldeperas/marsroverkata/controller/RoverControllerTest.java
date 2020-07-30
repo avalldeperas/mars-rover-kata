@@ -77,6 +77,10 @@ public class RoverControllerTest {
                 .andExpect(content().json("{position:{x:1,y:2}" +
                         ",direction:SOUTH,name:rover_found,running:false}"))
                 .andReturn();
+    }
+
+    @Test
+    public void executeCommands_basic() throws Exception {
 
     }
 

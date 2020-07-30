@@ -1,5 +1,8 @@
 package com.avalldeperas.marsroverkata.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -10,6 +13,8 @@ import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @RequiredArgsConstructor
 public class RoverLog {
     /** Current stage of the command execution. */
@@ -33,8 +38,16 @@ public class RoverLog {
     public String toString() {
         return String.format(
                 "%6d %5s %18s %4s %7s %4s \t%s\n",
-                stage, "|", action, "|", position, "|", message
+                stage, "|", action, "|", formatPosition(), "|", message
         );
+    }
+
+    /**
+     * Formats Rover's position by adding its direction.
+     * @return The formatted position.
+     */
+    private String formatPosition() {
+        return String.format("%s%s", position, direction.getShortDirection());
     }
 
     /**

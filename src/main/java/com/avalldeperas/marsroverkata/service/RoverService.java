@@ -4,11 +4,15 @@ import com.avalldeperas.marsroverkata.data.RoverRepository;
 import com.avalldeperas.marsroverkata.model.CommandWrapper;
 import com.avalldeperas.marsroverkata.model.Position;
 import com.avalldeperas.marsroverkata.model.Rover;
+import com.avalldeperas.marsroverkata.model.RoverLog;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -32,12 +36,14 @@ public class RoverService {
      * @param id The Rover's id.
      * @return the log of the command list' execution.
      */
-    public String execute(final CommandWrapper commands, final Long id) {
+    public List<RoverLog> execute(final CommandWrapper commands,
+                                  final Long id) {
         Optional<Rover> roverFound = repository.findById(id);
         if (roverFound.isEmpty()) {
-            return "Rover not found with id = " + id;
+            throw new NoSuchElementException("Rover not found - id " + id);
         }
-        String log = roverFound.get().execute(commands);
+
+        List<RoverLog> log = roverFound.get().execute(commands);
         repository.save(roverFound.get());
         return log;
     }
