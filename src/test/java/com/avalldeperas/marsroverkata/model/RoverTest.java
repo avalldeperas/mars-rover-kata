@@ -113,7 +113,7 @@ public class RoverTest {
     @Test
     public void testLogTable(){
         CommandWrapper wrapper = new CommandWrapper();
-        wrapper.setCommands("ffrflfnff");
+        wrapper.setCommands("ffrfln");
         String execute = rover.execute(wrapper);
         System.out.println(execute);
     }

@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode
-@ToString
 public class Position {
     /** X component of the position. */
     private Integer x;
@@ -75,4 +74,11 @@ public class Position {
         return tempPosition;
     }
 
+    /**
+     * Formats the current position of the Rover.
+     * @return The formatted position.
+     */
+    public String toString() {
+        return String.format("(%s,%s)", x, y);
+    }
 }

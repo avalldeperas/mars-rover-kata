@@ -31,17 +31,10 @@ public class RoverLog {
      */
     @Override
     public String toString() {
-        return String.format("%7d %4s %18s %4s %10s %4s %19s\n",
-                stage, "|", action, "|", formatPosition(),
-                "|", message);
-    }
-
-    /**
-     * Formats the current position of the Rover.
-     * @return
-     */
-    private String formatPosition() {
-        return String.format("(%s,%s)", position.getX(), position.getY());
+        return String.format(
+                "%6d %5s %18s %4s %7s %4s \t%s\n",
+                stage, "|", action, "|", position, "|", message
+        );
     }
 
     /**
@@ -49,17 +42,19 @@ public class RoverLog {
      * @return The log header as a StringBuilder.
      */
     public static StringBuilder buildHeader() {
+
         header = new StringBuilder();
-        header.append("===========================\n");
-        header.append("=== MARS ROVER KATA LOG ===\n");
-        header.append("===========================\n");
-        header.append("-----------------------------------------------"
-                + "--------------------------------\n");
+        header.append("=======================================\n");
+        header.append("=== MARS ROVER KATA - EXECUTION LOG ===\n");
+        header.append("=======================================\n");
+        header.append("--------------------------------------------"
+                + "-----------------------------------------------\n");
         header.append(String.format(
-                "%8s %3s %12s %11s %9s %4s %15s\n",
-                "Stage", "|", "Action", "|", "Position", "|", "Description"));
+                "%8s %3s %8s %14s %9s %2s %13s\n",
+                "Stage", "|", "Action", "|", "Position", "|", "Description"
+        ));
         header.append("-----------------------------------------------"
-                        + "--------------------------------\n");
+                        + "--------------------------------------------\n");
         return header;
     }
 
@@ -73,5 +68,4 @@ public class RoverLog {
         logs.forEach(sb::append);
         return sb;
     }
-
 }

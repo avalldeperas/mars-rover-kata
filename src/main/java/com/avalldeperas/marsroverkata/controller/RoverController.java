@@ -18,7 +18,7 @@ public class RoverController {
 
     /**
      * Injects the service to the web layer.
-     * @param roverService
+     * @param roverService The service injected to the controller.
      */
     @Autowired
     public RoverController(final RoverService roverService) {
