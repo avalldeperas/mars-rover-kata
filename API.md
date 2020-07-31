@@ -114,7 +114,7 @@ mvn spring-boot:run
     `````
 * **Sample Call:** _http://localhost:2012/turn-off-rover/1_
 
-### Find Rover
+### Deploy Rover
   _Deploys a new Rover to Mars._
 * **URL:** /deploy_rover
 * **Method:** `POST` 
